@@ -1,3 +1,7 @@
+CREATE database warganet;
+
+USE warganet;
+
 CREATE TABLE user (
    iduser INT PRIMARY KEY AUTO_INCREMENT,
    nmuser VARCHAR (15),
