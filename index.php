@@ -1,4 +1,5 @@
 <?php
+include "ceklogin.php";
 include "header.php";
 ?>
 <!-- Content Wrapper. Contains page content -->
