@@ -1,42 +1,52 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 
 <head>
-   <meta charset="UTF-8">
-   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-   <meta name="csrf-token" content="{{ csrf_token() }}">
-   <title>@yield('title', 'AdminLTE')</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
 
-   <!-- Include CSS AdminLTE -->
-   <link rel="stylesheet" href="{{ asset('adminlte/plugins/fontawesome-free/css/all.min.css') }}">
-   <link rel="stylesheet" href="{{ asset('adminlte/dist/css/adminlte.min.css') }}">
-   @stack('styles')
+    <title>{{ config('app.name', 'Laravel') }}</title>
+
+    <!-- Link ke CSS AdminLTE -->
+    <link rel="stylesheet" href="{{ asset('adminlte/dist/css/adminlte.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('adminlte/plugins/fontawesome-free/css/all.min.css') }}">
 </head>
 
-<body class="hold-transition sidebar-mini layout-fixed">
-   <div class="wrapper">
-      <!-- Navbar -->
-      @include('layouts.partials.navbar')
+<body class="hold-transition sidebar-mini">
+    <div class="wrapper">
+        <!-- Navbar -->
+        @include('layouts.partials.navbar')
+        <!-- Sidebar -->
+        @include('layouts.partials.sidebar')
+        <!-- Konten Utama -->
+        <div class="content-wrapper">
+            <!-- Page Heading -->
+            @isset($header)
+            <section class="content-header">
+                <div class="container-fluid">
+                    <div class="row mb-2">
+                        <div class="col-sm-6">
+                            <h1>{{ $header }}</h1>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            @endisset
 
-      <!-- Sidebar -->
-      @include('layouts.partials.sidebar')
+            <!-- Page Content -->
+            <section class="content">
+                @yield('content')
+            </section>
+        </div>
+        <!-- Footer -->
+        @include('layouts.partials.footer')
+    </div>
 
-      <!-- Content Wrapper. Contains page content -->
-      <div class="content-wrapper">
-         <!-- Main content -->
-         @yield('content')
-      </div>
-      <!-- /.content-wrapper -->
-
-      <!-- Footer -->
-      @include('layouts.partials.footer')
-   </div>
-
-   <!-- Include JS AdminLTE -->
-   <script src="{{ asset('adminlte/plugins/jquery/jquery.min.js') }}"></script>
-   <script src="{{ asset('adminlte/plugins/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
-   <script src="{{ asset('adminlte/dist/js/adminlte.min.js') }}"></script>
-   @stack('scripts')
+    <!-- Script JavaScript AdminLTE -->
+    <script src="{{ asset('adminlte/plugins/jquery/jquery.min.js') }}"></script>
+    <script src="{{ asset('adminlte/plugins/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+    <script src="{{ asset('adminlte/dist/js/adminlte.min.js') }}"></script>
 </body>
 
 </html>
