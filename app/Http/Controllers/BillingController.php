@@ -34,25 +34,29 @@ class BillingController extends Controller
     public function generate()
     {
         $today = now();
-
-        // Cek apakah tagihan bulan ini sudah pernah di-generate berdasarkan updated_at
+    
+        // Cek apakah tagihan bulan ini sudah pernah di-generate
         $billsGenerated = Bill::whereYear('updated_at', $today->year)
             ->whereMonth('updated_at', $today->month)
             ->exists();
-
+    
         if ($billsGenerated) {
             return redirect()->route('billing.index')->with('info', 'Bills for this month have already been generated.');
         }
-
+    
         // Proses untuk setiap pelanggan
         $customers = Customer::all();
         foreach ($customers as $customer) {
             // Ambil tagihan terakhir untuk pelanggan ini
             $lastBill = $customer->bills()->orderBy('created_at', 'desc')->first();
-
+    
             if ($lastBill) {
                 // Update tagihan yang ada dengan menambahkan monthly_fee ke bill_total
                 $lastBill->bill_total += $customer->monthly_fee;
+    
+                // Ubah status menjadi no_payment
+                $lastBill->status = 'no_payment';
+    
                 $lastBill->save();
             } else {
                 // Jika tidak ada tagihan sebelumnya, buat tagihan pertama kali
@@ -64,11 +68,10 @@ class BillingController extends Controller
                 ]);
             }
         }
-
+    
         return redirect()->route('billing.index')->with('success', 'Bills for this month have been generated successfully.');
     }
-
-
+    
     public function show($id)
     {
         $bill = Bill::with('customer')->findOrFail($id);

@@ -25,7 +25,7 @@
                   @csrf
                   <div class="form-group">
                      <label for="payment">Payment Amount:</label>
-                     <input type="number" name="payment" class="form-control" placeholder="Enter payment" required>
+                     <input type="number" name="payment" class="form-control" placeholder="Enter payment" required autofocus>
                   </div>
                   <div class="form-group">
                      <label for="discount">Discount (optional):</label>
