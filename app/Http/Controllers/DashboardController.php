@@ -7,68 +7,82 @@ use App\Models\Payment;
 use App\Models\Withdrawal;
 use App\Models\InitialBalance;
 use App\Models\User;
+use App\Models\SideIncome;
 use Illuminate\Support\Facades\DB;
+use Carbon\Carbon;
 
 class DashboardController extends Controller
 {
     public function index()
     {
-        // Ambil saldo awal (jika ada)
-        $initialBalance = InitialBalance::first(); // Pastikan saldo awal hanya 1 baris
+        // Ambil saldo awal (pastikan hanya ada satu)
+        $initialBalance = InitialBalance::first();
+        $saldoAwal = $initialBalance ? $initialBalance->balance : 0;
 
-        // Ambil total pembayaran yang sudah dikonfirmasi
+        // Total pembayaran yang sudah dikonfirmasi
         $totalPayments = Payment::where('status', 'confirmed')->sum('payment');
 
-        // Ambil total pengeluaran (expenses)
+        // Total pengeluaran
         $totalExpenses = Expense::sum('amount');
 
-        // Ambil total withdraw untuk masing-masing user
-        $totalWithdrawalsUser1 = Withdrawal::where('user_id', 1)->sum('amount');
-        $totalWithdrawalsUser2 = Withdrawal::where('user_id', 2)->sum('amount');
+        // **Tambahan: Total Side Incomes**
+        $totalSideIncome = SideIncome::sum('amount');
+
+        // Total withdraw untuk masing-masing user
+        $withdrawals = Withdrawal::selectRaw('user_id, SUM(amount) as total')
+            ->groupBy('user_id')
+            ->pluck('total', 'user_id');
+
+        $totalWithdrawalsUser1 = $withdrawals[1] ?? 0;
+        $totalWithdrawalsUser2 = $withdrawals[2] ?? 0;
 
         // Total pembayaran dengan status waiting
         $totalPaymentsWaiting = Payment::where('status', 'waiting')->sum('payment');
 
         // Total diskon bulan ini
         $totalDiscountThisMonth = Payment::where('status', 'confirmed')
-            ->whereMonth('created_at', now()->month)
-            ->whereYear('created_at', now()->year)
+            ->whereMonth('created_at', Carbon::now()->month)
+            ->whereYear('created_at', Carbon::now()->year)
             ->sum('discount');
 
-        // Hitung total kas (saldo awal + pembayaran - pengeluaran)
-        $totalKas = ($initialBalance ? $initialBalance->balance : 0) + $totalPayments - $totalExpenses;
+        // **Tambahan: Total Side Incomes Bulan Ini**
+        $totalSideIncomeThisMonth = SideIncome::whereMonth('date', Carbon::now()->month)
+            ->whereYear('date', Carbon::now()->year)
+            ->sum('amount');
 
-        // Hitung saldo untuk User 1 dan User 2
+        // **Hitung Total Kas Baru (termasuk Side Incomes)**
+        $totalKas = $saldoAwal + $totalPayments + $totalSideIncome - $totalExpenses;
+
+        // **Bagi Total Kas ke User 1 & 2**
         $saldoUser1 = ($totalKas / 2) - $totalWithdrawalsUser1;
         $saldoUser2 = ($totalKas / 2) - $totalWithdrawalsUser2;
 
-        // Kas total adalah jumlah saldo user1 dan user2
+        // Total kas keseluruhan setelah dikurangi withdraw
         $kas = $saldoUser1 + $saldoUser2;
 
-        // Ambil data user
-        $users = User::take(2)->get(); // Mengambil dua user pertama
+        // Ambil dua user pertama (jika ada lebih dari dua user)
+        $users = User::take(2)->get();
 
-        // Total payments bulan ini
+        // Total pembayaran bulan ini
         $totalPaymentsThisMonth = Payment::where('status', 'confirmed')
-            ->whereMonth('created_at', now()->month)
-            ->whereYear('created_at', now()->year)
+            ->whereMonth('created_at', Carbon::now()->month)
+            ->whereYear('created_at', Carbon::now()->year)
             ->sum('payment');
 
-        // Total expenses bulan ini
-        $totalExpensesThisMonth = Expense::whereMonth('created_at', now()->month)
-            ->whereYear('created_at', now()->year)
+        // Total pengeluaran bulan ini
+        $totalExpensesThisMonth = Expense::whereMonth('created_at', Carbon::now()->month)
+            ->whereYear('created_at', Carbon::now()->year)
             ->sum('amount');
 
         // Total withdraw bulan ini per user
-        $totalWithdrawalsUser1ThisMonth = Withdrawal::where('user_id', 1)
-            ->whereMonth('created_at', now()->month)
-            ->whereYear('created_at', now()->year)
-            ->sum('amount');
+        $withdrawalsThisMonth = Withdrawal::whereMonth('created_at', Carbon::now()->month)
+            ->whereYear('created_at', Carbon::now()->year)
+            ->selectRaw('user_id, SUM(amount) as total')
+            ->groupBy('user_id')
+            ->pluck('total', 'user_id');
 
-        $totalWithdrawalsUser2ThisMonth = Withdrawal::where('user_id', 2)
-            ->whereMonth('created_at', now()->month)
-            ->whereYear('created_at', now()->year)
-            ->sum('amount');
+        $totalWithdrawalsUser1ThisMonth = $withdrawalsThisMonth[1] ?? 0;
+        $totalWithdrawalsUser2ThisMonth = $withdrawalsThisMonth[2] ?? 0;
 
         return view('dashboard', compact(
             'kas',
@@ -84,6 +98,8 @@ class DashboardController extends Controller
             'totalPaymentsWaiting',
             'totalWithdrawalsUser1ThisMonth',
             'totalWithdrawalsUser2ThisMonth',
+            'totalSideIncomeThisMonth', // **Tambahan baru**
+            'totalSideIncome', // **Tambahan baru: Total Side Income secara keseluruhan**
             'users'
         ));
     }

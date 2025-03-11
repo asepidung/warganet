@@ -11,9 +11,10 @@ class ExpenseController extends Controller
     // Method untuk menampilkan daftar pengeluaran
     public function index()
     {
-        $expenses = Expense::with('user')->get();
+        $expenses = Expense::with('user')->orderBy('created_at', 'DESC')->get();
         return view('expenses.index', compact('expenses'));
     }
+
 
     // Method untuk menampilkan halaman form create
     public function create()

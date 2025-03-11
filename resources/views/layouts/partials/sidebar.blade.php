@@ -40,11 +40,18 @@
                </a>
             </li>
             <li class="nav-item">
+               <a href="{{ route('sideincomes.index') }}" class="nav-link {{ request()->routeIs('sideincomes.index') ? 'active' : '' }}">
+                  <i class="nav-icon fas fa-coins"></i>
+                  <p>Side Incomes</p>
+               </a>
+            </li>
+            <li class="nav-item">
                <a href="{{ route('expenses.index') }}" class="nav-link {{ request()->routeIs('expenses.index') ? 'active' : '' }}">
                   <i class="nav-icon fas fa-money-bill-wave"></i>
                   <p>Expenses</p>
                </a>
             </li>
+
             <li class="nav-item">
                <a href="{{ route('withdrawals.index') }}" class="nav-link {{ request()->routeIs('withdrawals.index') ? 'active' : '' }}">
                   <i class="nav-icon fas fa-coins"></i>

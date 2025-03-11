@@ -186,6 +186,19 @@
    <div class="row">
       <!-- Small Box: Saldo User 1 -->
       <div class="col-lg-3 col-6">
+         <div class="small-box bg-primary">
+            <div class="inner">
+               <h4>{{ number_format($totalSideIncomeThisMonth, 2) }}</h4> <!-- Total Side Income Bulan Ini -->
+               <p>Total Side Incomes This Month</p>
+            </div>
+            <div class="icon">
+               <i class="fas fa-coins"></i>
+            </div>
+            <a href="{{ route('sideincomes.index') }}" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+         </div>
+      </div>
+
+      <div class="col-lg-3 col-6">
          <div class="small-box bg-secondary">
             <div class="inner">
                <h4>{{ number_format($saldoUser1, 2) }}</h4> <!-- Saldo User 1 -->

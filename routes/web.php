@@ -35,4 +35,6 @@ Route::get('/payments', [PaymentController::class, 'index'])->name('payments.ind
 
 Route::put('/billings/payment/{paymentId}/confirm', [BillingController::class, 'confirmPayment'])->name('billing.confirmPayment');
 
+Route::resource('sideincomes', App\Http\Controllers\SideIncomeController::class)->middleware('auth');
+
 require __DIR__ . '/auth.php';

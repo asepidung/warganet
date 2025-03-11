@@ -5,7 +5,7 @@
 @section('content')
 <div class="container-fluid">
    <div class="row">
-      <div class="col-md-6 mt-3">
+      <div class="col-md mt-3">
          @if(session('success'))
          <div class="alert alert-success">
             {{ session('success') }}
