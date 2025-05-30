@@ -9,9 +9,13 @@ use Illuminate\Support\Facades\Auth;
 
 class WithdrawalController extends Controller
 {
+
+
     public function index()
     {
-        $withdrawals = Withdrawal::with('user')->get();
+        $withdrawals = Withdrawal::with('user')
+            ->orderBy('withdrawal_date', 'desc') // Data terbaru di atas
+            ->get();
         return view('withdrawals.index', compact('withdrawals'));
     }
 
@@ -46,5 +50,14 @@ class WithdrawalController extends Controller
     {
         $withdrawal = Withdrawal::findOrFail($id);
         return view('withdrawals.show', compact('withdrawal'));
+    }
+
+    public function destroy($id)
+    {
+        $withdrawal = Withdrawal::findOrFail($id);
+        $withdrawal->delete();
+
+        return redirect()->route('withdrawals.index')
+            ->with('success', 'Withdrawal berhasil dihapus!');
     }
 }

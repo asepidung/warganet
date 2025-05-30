@@ -5,7 +5,7 @@
 @section('content')
 <div class="container-fluid">
    <div class="row">
-      <div class="col-md-6 mt-3">
+      <div class="col-md-8 mt-3">
          @if(session('success'))
          <div class="alert alert-success">
             {{ session('success') }}
@@ -30,6 +30,7 @@
                         <th>Amount</th>
                         <th>Withdrawal Date</th>
                         <th>Note</th>
+                        <th>Action</th> <!-- Kolom baru -->
                      </tr>
                   </thead>
                   <tbody>
@@ -40,6 +41,19 @@
                         <td class="text-right">{{ number_format($withdrawal->amount, 2) }}</td>
                         <td>{{ \Carbon\Carbon::parse($withdrawal->withdrawal_date)->format('d-M-y') }}</td>
                         <td class="text-left">{{ $withdrawal->note }}</td>
+                        <td>
+                           @auth
+                           @if(Auth::id() == 1)
+                           <form action="{{ route('withdrawals.destroy', $withdrawal->id) }}" method="POST" class="d-inline">
+                              @csrf
+                              @method('DELETE')
+                              <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Yakin ingin menghapus?')">
+                                 <i class="fas fa-trash"></i> Hapus
+                              </button>
+                           </form>
+                           @endif
+                           @endauth
+                        </td>
                      </tr>
                      @endforeach
                   </tbody>
