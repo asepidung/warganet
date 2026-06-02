@@ -23,6 +23,8 @@ class ExpenseResource extends ModelResource
     protected string $title = 'Expenses';
     
     protected string $icon = 'banknotes';
+
+    protected ?\MoonShine\Support\Enums\PageType $redirectAfterSave = \MoonShine\Support\Enums\PageType::INDEX;
     
     /**
      * @return list<class-string<PageContract>>

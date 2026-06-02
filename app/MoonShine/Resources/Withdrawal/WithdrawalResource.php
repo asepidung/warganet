@@ -22,6 +22,10 @@ class WithdrawalResource extends ModelResource
 
     protected string $title = 'Withdrawals';
     
+    protected string $icon = 'arrow-down-tray';
+
+    protected ?\MoonShine\Support\Enums\PageType $redirectAfterSave = \MoonShine\Support\Enums\PageType::INDEX;
+    
     /**
      * @return list<class-string<PageContract>>
      */
@@ -32,5 +36,10 @@ class WithdrawalResource extends ModelResource
             WithdrawalFormPage::class,
             WithdrawalDetailPage::class,
         ];
+    }
+
+    public function modifyQueryBuilder(\Illuminate\Contracts\Database\Eloquent\Builder $builder): \Illuminate\Contracts\Database\Eloquent\Builder
+    {
+        return $builder->orderBy('withdrawal_date', 'desc');
     }
 }

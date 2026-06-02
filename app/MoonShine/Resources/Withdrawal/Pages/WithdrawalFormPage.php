@@ -27,12 +27,38 @@ class WithdrawalFormPage extends FormPage
      */
     protected function fields(): iterable
     {
+        $systemBalance = \App\Models\User::getTotalSystemBalance();
+        $share = $systemBalance / 2;
+        
+        $users = \App\Models\User::all();
+        $balancesText = [];
+        foreach($users as $u) {
+            $myWithdrawals = \App\Models\Withdrawal::where('user_id', $u->id)->sum('amount');
+            $balance = number_format($share - $myWithdrawals, 0, '', ',');
+            $balancesText[] = "Saldo {$u->name}: Rp $balance";
+        }
+        $balancesString = implode(' | ', $balancesText);
+
+        $usersList = \App\Models\User::all()->pluck('name', 'id')->toArray();
+
         return [
-            \MoonShine\UI\Fields\ID::make(),
-            \MoonShine\Laravel\Fields\Relationships\BelongsTo::make('User', 'user', 'name'),
-            \MoonShine\UI\Fields\Number::make('Amount', 'amount'),
-            \MoonShine\UI\Fields\Text::make('Withdrawal Date', 'withdrawal_date'),
-            \MoonShine\UI\Fields\Text::make('Note', 'note'),
+            \MoonShine\UI\Components\Badge::make($balancesString, 'success'),
+            \MoonShine\UI\Fields\Select::make('User', 'user_id')
+                ->options($usersList)
+                ->searchable()
+                ->required(),
+            \MoonShine\UI\Fields\Text::make('Amount', 'amount')
+                ->required()
+                ->customAttributes([
+                    'onfocus' => "this.select()",
+                    'onkeyup' => "this.value = this.value.replace(/[^0-9]/g, '').replace(/\B(?=(\d{3})+(?!\d))/g, ',')"
+                ])
+                ->onApply(fn($item, $value) => $item->amount = str_replace(',', '', $value)),
+            \MoonShine\UI\Fields\Date::make('Withdrawal Date', 'withdrawal_date')
+                ->format('Y-m-d')
+                ->default(now()->format('Y-m-d'))
+                ->required(),
+            \MoonShine\UI\Fields\Textarea::make('Note', 'note'),
         ];
     }
 

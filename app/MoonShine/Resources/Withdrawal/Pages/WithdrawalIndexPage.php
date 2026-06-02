@@ -29,9 +29,10 @@ class WithdrawalIndexPage extends IndexPage
     protected function fields(): iterable
     {
         return [
-            \MoonShine\UI\Fields\Text::make('Amount', 'amount', fn($item) => number_format((float)$item->amount, 2, '.', ',')),
-            \MoonShine\UI\Fields\Text::make('Withdrawal Date', 'withdrawal_date'),
+            \MoonShine\UI\Fields\Text::make('Admin', 'user.name'),
+            \MoonShine\UI\Fields\Text::make('Amount', 'amount', fn($item) => number_format((float)$item->amount, 0, '', ',')),
             \MoonShine\UI\Fields\Text::make('Note', 'note'),
+            \MoonShine\UI\Fields\Text::make('Date', 'withdrawal_date', fn($item) => \Carbon\Carbon::parse($item->withdrawal_date)->format('d M Y')),
         ];
     }
 

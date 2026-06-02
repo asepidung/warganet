@@ -26,9 +26,9 @@ class WithdrawalDetailPage extends DetailPage
     {
         return [
             \MoonShine\UI\Fields\ID::make(),
-            \MoonShine\Laravel\Fields\Relationships\BelongsTo::make('User', 'user', 'name'),
-            \MoonShine\UI\Fields\Number::make('Amount', 'amount'),
-            \MoonShine\UI\Fields\Text::make('Withdrawal Date', 'withdrawal_date'),
+            \MoonShine\UI\Fields\Text::make('Admin', 'user.name'),
+            \MoonShine\UI\Fields\Text::make('Amount', 'amount', fn($item) => number_format((float)$item->amount, 0, '', ',')),
+            \MoonShine\UI\Fields\Text::make('Withdrawal Date', 'withdrawal_date', fn($item) => \Carbon\Carbon::parse($item->withdrawal_date)->format('d M Y')),
             \MoonShine\UI\Fields\Text::make('Note', 'note'),
             \MoonShine\UI\Fields\Text::make('Created At', 'created_at'),
             \MoonShine\UI\Fields\Text::make('Updated At', 'updated_at'),

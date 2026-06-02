@@ -45,4 +45,32 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
+    /**
+     * Menghitung total saldo sistem keseluruhan.
+     */
+    public static function getTotalSystemBalance(): float
+    {
+        $totalPayments = \App\Models\Payment::where('status', 'confirmed')->sum('payment');
+        $totalSideIncomes = \App\Models\SideIncome::sum('amount');
+        $totalExpenses = \App\Models\Expense::sum('amount');
+
+        return ($totalPayments + $totalSideIncomes) - $totalExpenses;
+    }
+
+    /**
+     * Menghitung hak saldo/uang dari user ini berdasarkan pembagian rata (dibagi 2) dikurangi penarikan pribadinya.
+     */
+    public function getShareBalance(): float
+    {
+        $systemBalance = self::getTotalSystemBalance();
+        
+        // Asumsi pembagian rata 50-50 antara Asep dan Prima (dibagi 2)
+        $share = $systemBalance / 2;
+
+        // Dikurangi total withdraw yang sudah ditarik oleh user ini
+        $myWithdrawals = \App\Models\Withdrawal::where('user_id', $this->id)->sum('amount');
+
+        return $share - $myWithdrawals;
+    }
 }

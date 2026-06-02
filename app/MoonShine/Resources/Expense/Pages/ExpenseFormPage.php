@@ -30,9 +30,13 @@ class ExpenseFormPage extends FormPage
         return [
             \MoonShine\UI\Fields\Text::make('Description', 'description')
                 ->required(),
-            \MoonShine\UI\Fields\Number::make('Amount', 'amount')
+            \MoonShine\UI\Fields\Text::make('Amount', 'amount')
                 ->required()
-                ->min(0),
+                ->customAttributes([
+                    'onfocus' => "this.select()",
+                    'onkeyup' => "this.value = this.value.replace(/[^0-9]/g, '').replace(/\B(?=(\d{3})+(?!\d))/g, ',')"
+                ])
+                ->onApply(fn($item, $value) => $item->amount = str_replace(',', '', $value)),
             \MoonShine\UI\Fields\Hidden::make('User ID', 'user_id')
                 ->default(auth()->id()),
         ];
