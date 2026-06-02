@@ -28,10 +28,13 @@ class ExpenseFormPage extends FormPage
     protected function fields(): iterable
     {
         return [
-            \MoonShine\UI\Fields\ID::make(),
-            \MoonShine\Laravel\Fields\Relationships\BelongsTo::make('User', 'user', 'name'),
-            \MoonShine\UI\Fields\Text::make('Description', 'description'),
-            \MoonShine\UI\Fields\Number::make('Amount', 'amount'),
+            \MoonShine\UI\Fields\Text::make('Description', 'description')
+                ->required(),
+            \MoonShine\UI\Fields\Number::make('Amount', 'amount')
+                ->required()
+                ->min(0),
+            \MoonShine\UI\Fields\Hidden::make('User ID', 'user_id')
+                ->default(auth()->id()),
         ];
     }
 

@@ -22,6 +22,8 @@ class ExpenseResource extends ModelResource
 
     protected string $title = 'Expenses';
     
+    protected string $icon = 'banknotes';
+    
     /**
      * @return list<class-string<PageContract>>
      */
@@ -32,5 +34,10 @@ class ExpenseResource extends ModelResource
             ExpenseFormPage::class,
             ExpenseDetailPage::class,
         ];
+    }
+
+    public function modifyQueryBuilder(\Illuminate\Contracts\Database\Eloquent\Builder $builder): \Illuminate\Contracts\Database\Eloquent\Builder
+    {
+        return $builder->orderBy('created_at', 'desc');
     }
 }

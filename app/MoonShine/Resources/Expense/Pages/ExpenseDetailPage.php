@@ -26,11 +26,11 @@ class ExpenseDetailPage extends DetailPage
     {
         return [
             \MoonShine\UI\Fields\ID::make(),
-            \MoonShine\Laravel\Fields\Relationships\BelongsTo::make('User', 'user', 'name'),
+            \MoonShine\UI\Fields\Text::make('Admin', 'user.name'),
             \MoonShine\UI\Fields\Text::make('Description', 'description'),
-            \MoonShine\UI\Fields\Number::make('Amount', 'amount'),
-            \MoonShine\UI\Fields\Text::make('Created At', 'created_at'),
-            \MoonShine\UI\Fields\Text::make('Updated At', 'updated_at'),
+            \MoonShine\UI\Fields\Text::make('Amount', 'amount', fn($item) => number_format((float)$item->amount, 0, '', ',')),
+            \MoonShine\UI\Fields\Text::make('Created At', 'created_at', fn($item) => $item->created_at->format('d M Y H:i')),
+            \MoonShine\UI\Fields\Text::make('Updated At', 'updated_at', fn($item) => $item->updated_at->format('d M Y H:i')),
         ];
     }
 

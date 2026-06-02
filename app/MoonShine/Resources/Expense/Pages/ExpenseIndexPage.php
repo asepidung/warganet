@@ -30,7 +30,9 @@ class ExpenseIndexPage extends IndexPage
     {
         return [
             \MoonShine\UI\Fields\Text::make('Description', 'description'),
-            \MoonShine\UI\Fields\Text::make('Amount', 'amount', fn($item) => number_format((float)$item->amount, 2, '.', ',')),
+            \MoonShine\UI\Fields\Text::make('Amount', 'amount', fn($item) => number_format((float)$item->amount, 0, '', ',')),
+            \MoonShine\UI\Fields\Text::make('Admin', 'user.name'),
+            \MoonShine\UI\Fields\Text::make('Date', 'created_at', fn($item) => $item->created_at->format('d M Y H:i')),
         ];
     }
 
