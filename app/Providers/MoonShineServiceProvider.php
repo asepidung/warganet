@@ -17,6 +17,7 @@ use App\MoonShine\Resources\Payment\PaymentResource;
 use App\MoonShine\Resources\Expense\ExpenseResource;
 use App\MoonShine\Resources\Withdrawal\WithdrawalResource;
 use App\MoonShine\Resources\SideIncome\SideIncomeResource;
+use App\MoonShine\Resources\InitialBalance\InitialBalanceResource;
 
 class MoonShineServiceProvider extends ServiceProvider
 {
@@ -35,6 +36,7 @@ class MoonShineServiceProvider extends ServiceProvider
                 ExpenseResource::class,
                 WithdrawalResource::class,
                 SideIncomeResource::class,
+                InitialBalanceResource::class,
             ])
             ->pages([
                 ...$core->getConfig()->getPages(),

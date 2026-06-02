@@ -44,13 +44,15 @@ class PaymentResource extends ModelResource
     public function modifyQueryBuilder(\Illuminate\Contracts\Database\Eloquent\Builder $builder): \Illuminate\Contracts\Database\Eloquent\Builder
     {
         return $builder
-            ->whereIn('id', function ($query) {
+            ->join('customers', 'payments.customer_id', '=', 'customers.id')
+            ->whereIn('payments.id', function ($query) {
                 $query->selectRaw('MAX(id)')
                       ->from('payments')
                       ->groupBy('customer_id');
             })
-            ->whereHas('customer', fn($q) => $q->where('is_active', true))
-            ->orderBy('created_at', 'desc');
+            ->where('customers.is_active', true)
+            ->orderBy('customers.name', 'asc')
+            ->select('payments.*');
     }
 
     protected function isCan(\MoonShine\Support\Enums\Ability $ability): bool

@@ -84,12 +84,21 @@ class BillIndexPage extends IndexPage
         return [];
     }
 
-    /**
-     * @return list<Metric>
-     */
     protected function metrics(): array
     {
-        return [];
+        $totalUnpaid = \App\Models\Bill::whereIn('id', function ($query) {
+                $query->selectRaw('MAX(id)')
+                      ->from('bills')
+                      ->groupBy('customer_id');
+            })
+            ->whereHas('customer', fn($q) => $q->where('is_active', true))
+            ->sum('bill_total');
+
+        return [
+            \MoonShine\UI\Components\Metrics\Wrapped\ValueMetric::make('Total Tagihan Belum Dibayar')
+                ->value('Rp ' . number_format((float)$totalUnpaid, 0, '', ','))
+                ->icon('currency-dollar')
+        ];
     }
 
     /**

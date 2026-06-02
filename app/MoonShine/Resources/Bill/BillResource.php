@@ -45,11 +45,14 @@ class BillResource extends ModelResource
     public function modifyQueryBuilder(Builder $builder): Builder
     {
         return $builder
-            ->whereIn('id', function ($query) {
+            ->join('customers', 'bills.customer_id', '=', 'customers.id')
+            ->whereIn('bills.id', function ($query) {
                 $query->selectRaw('MAX(id)')
                       ->from('bills')
                       ->groupBy('customer_id');
             })
-            ->whereHas('customer', fn($q) => $q->where('is_active', true));
+            ->where('customers.is_active', true)
+            ->orderBy('customers.name', 'asc')
+            ->select('bills.*');
     }
 }

@@ -39,4 +39,9 @@ class CustomerResource extends ModelResource
     {
         return [Action::CREATE, Action::VIEW, Action::UPDATE];
     }
+
+    public function modifyQueryBuilder(\Illuminate\Contracts\Database\Eloquent\Builder $builder): \Illuminate\Contracts\Database\Eloquent\Builder
+    {
+        return $builder->orderBy('name', 'asc');
+    }
 }

@@ -51,11 +51,12 @@ class User extends Authenticatable
      */
     public static function getTotalSystemBalance(): float
     {
+        $initialBalance = \App\Models\InitialBalance::sum('balance');
         $totalPayments = \App\Models\Payment::where('status', 'confirmed')->sum('payment');
         $totalSideIncomes = \App\Models\SideIncome::sum('amount');
         $totalExpenses = \App\Models\Expense::sum('amount');
 
-        return ($totalPayments + $totalSideIncomes) - $totalExpenses;
+        return ($initialBalance + $totalPayments + $totalSideIncomes) - $totalExpenses;
     }
 
     /**

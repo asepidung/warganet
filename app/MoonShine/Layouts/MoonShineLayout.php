@@ -16,6 +16,7 @@ use App\MoonShine\Resources\Payment\PaymentResource;
 use App\MoonShine\Resources\Expense\ExpenseResource;
 use App\MoonShine\Resources\Withdrawal\WithdrawalResource;
 use App\MoonShine\Resources\SideIncome\SideIncomeResource;
+use App\MoonShine\Resources\InitialBalance\InitialBalanceResource;
 
 final class MoonShineLayout extends AppLayout
 {
@@ -33,7 +34,8 @@ final class MoonShineLayout extends AppLayout
 
     protected function menu(): array
     {
-        $menus = [];
+        $menus = [    MenuItem::make(InitialBalanceResource::class, 'InitialBalances'),
+        ];
         // Hanya Full Admin (Role ID 1) yang bisa melihat menu System
         if (auth('moonshine')->user()?->moonshine_user_role_id === 1) {
             $menus = parent::menu();
@@ -58,5 +60,20 @@ final class MoonShineLayout extends AppLayout
         parent::colors($colorManager);
 
         // $colorManager->primary('#00000');
+    }
+
+    protected function getFooterMenu(): array
+    {
+        return [];
+    }
+
+    protected function getFooterCopyright(): string
+    {
+        return '&copy; ' . now()->year . ' Asep Idung';
+    }
+
+    protected function getProfileComponent(): \MoonShine\Laravel\Components\Layout\Profile
+    {
+        return parent::getProfileComponent()->avatarPlaceholder(asset('img/warganetlogo.png'));
     }
 }

@@ -25,14 +25,14 @@ use MoonShine\Laravel\Pages\ProfilePage;
 
 return [
     'title' => env('MOONSHINE_TITLE', 'Warganet'),
-    'logo' => '/adminlte/dist/img/warganetlogo.png',
-    'logo_small' => '/adminlte/dist/img/warganetlogo.png',
+    'logo' => '/img/warganetlogo.png',
+    'logo_small' => '/img/warganetlogo.png',
 
     'favicons' => [
-        'apple-touch' => '/adminlte/dist/img/warganetlogo.png',
-        '32' => '/adminlte/dist/img/warganetlogo.png',
-        '16' => '/adminlte/dist/img/warganetlogo.png',
-        'safari-pinned-tab' => '/adminlte/dist/img/warganetlogo.png',
+        'apple-touch' => '/img/warganetlogo.png',
+        '32' => '/img/warganetlogo.png',
+        '16' => '/img/warganetlogo.png',
+        'safari-pinned-tab' => '/img/warganetlogo.png',
     ],
 
     // Default flags
