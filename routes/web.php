@@ -11,6 +11,16 @@ use Illuminate\Support\Facades\Route;
 
 Route::redirect('/', '/admin');
 
+Route::get('/admin/bills/generate', [\App\Http\Controllers\GenerateBillController::class, '__invoke'])
+    ->name('admin.bills.generate')
+    ->middleware('moonshine');
+
+Route::post('/admin/bills/{id}/payment', [\App\Http\Controllers\StorePaymentController::class, '__invoke'])
+    ->name('admin.bills.storePayment')
+    ->middleware('moonshine');
+
+
+
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');

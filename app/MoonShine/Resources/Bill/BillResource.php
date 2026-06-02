@@ -12,6 +12,8 @@ use App\MoonShine\Resources\Bill\Pages\BillDetailPage;
 
 use MoonShine\Laravel\Resources\ModelResource;
 use MoonShine\Contracts\Core\PageContract;
+use MoonShine\Support\Enums\Action;
+use Illuminate\Contracts\Database\Eloquent\Builder;
 
 /**
  * @extends ModelResource<Bill, BillIndexPage, BillFormPage, BillDetailPage>
@@ -32,5 +34,22 @@ class BillResource extends ModelResource
             BillFormPage::class,
             BillDetailPage::class,
         ];
+    }
+
+    public function getActiveActions(): array
+    {
+        // Hilangkan semua tombol default (Create, View, Edit, Delete)
+        return [];
+    }
+
+    public function modifyQueryBuilder(Builder $builder): Builder
+    {
+        return $builder
+            ->whereIn('id', function ($query) {
+                $query->selectRaw('MAX(id)')
+                      ->from('bills')
+                      ->groupBy('customer_id');
+            })
+            ->whereHas('customer', fn($q) => $q->where('is_active', true));
     }
 }

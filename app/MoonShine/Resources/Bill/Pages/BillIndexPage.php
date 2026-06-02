@@ -30,7 +30,6 @@ class BillIndexPage extends IndexPage
     {
         return [
             \MoonShine\Laravel\Fields\Relationships\BelongsTo::make('Customer', 'customer', 'name'),
-            \MoonShine\UI\Fields\Text::make('Monthly Fee', 'monthly_fee', fn($item) => number_format((float)$item->monthly_fee, 2, '.', ',')),
             \MoonShine\UI\Fields\Text::make('Bill Total', 'bill_total', fn($item) => number_format((float)$item->bill_total, 2, '.', ',')),
             \MoonShine\UI\Fields\Text::make('Status', 'status'),
         ];
@@ -41,7 +40,32 @@ class BillIndexPage extends IndexPage
      */
     protected function buttons(): ListOf
     {
-        return parent::buttons();
+        return parent::buttons()->add(
+            \MoonShine\UI\Components\ActionButton::make('PAY')
+                ->icon('banknotes')
+                ->primary()
+                ->canSee(fn($item) => $item->bill_total > 0)
+                ->inModal(
+                    title: fn($item) => 'Bayar Tagihan: ' . $item->customer->name,
+                    content: fn($item) => \MoonShine\UI\Components\FormBuilder::make(route('admin.bills.storePayment', $item->id))
+                        ->fields([
+                            \MoonShine\UI\Fields\Text::make('Payment Amount', 'payment')
+                                ->required()
+                                ->default(number_format((float)$item->bill_total, 0, '', ','))
+                                ->customAttributes([
+                                    'onfocus' => 'this.select()',
+                                    'onkeyup' => "this.value = this.value.replace(/\D/g, '').replace(/\B(?=(\d{3})+(?!\d))/g, ',')"
+                                ]),
+                            \MoonShine\UI\Fields\Text::make('Discount', 'discount')
+                                ->default('0')
+                                ->customAttributes([
+                                    'onfocus' => 'this.select()',
+                                    'onkeyup' => "this.value = this.value.replace(/\D/g, '').replace(/\B(?=(\d{3})+(?!\d))/g, ',')"
+                                ]),
+                        ])
+                        ->submit('Submit Payment')
+                )
+        );
     }
 
     /**
@@ -85,7 +109,10 @@ class BillIndexPage extends IndexPage
     protected function topLayer(): array
     {
         return [
-            ...parent::topLayer()
+            ...parent::topLayer(),
+            \MoonShine\UI\Components\ActionButton::make('Generate Bills', route('admin.bills.generate'))
+                ->icon('bolt')
+                ->primary(),
         ];
     }
 
