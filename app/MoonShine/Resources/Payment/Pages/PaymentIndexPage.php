@@ -30,11 +30,12 @@ class PaymentIndexPage extends IndexPage
     {
         return [
             \MoonShine\Laravel\Fields\Relationships\BelongsTo::make('Customer', 'customer', 'name'),
-            \MoonShine\Laravel\Fields\Relationships\BelongsTo::make('Bill', 'bill', 'period'),
-            \MoonShine\UI\Fields\Text::make('Payment', 'payment', fn($item) => number_format((float)$item->payment, 2, '.', ',')),
-            \MoonShine\UI\Fields\Text::make('Discount', 'discount', fn($item) => number_format((float)$item->discount, 2, '.', ',')),
-            \MoonShine\UI\Fields\Text::make('Status', 'status'),
-            \MoonShine\UI\Fields\Text::make('Paid At', 'paid_at'),
+            \MoonShine\UI\Fields\Text::make('Payment', 'payment', fn($item) => number_format((float)$item->payment, 0, '', ',')),
+            \MoonShine\UI\Fields\Text::make('Discount', 'discount', fn($item) => number_format((float)$item->discount, 0, '', ',')),
+            \MoonShine\UI\Fields\Text::make('Status', 'status')
+                ->badge(fn($status) => $status === 'waiting' ? 'info' : 'success'),
+            \MoonShine\UI\Fields\Text::make('Paid At', 'paid_at', fn($item) => $item->paid_at ? \Carbon\Carbon::parse($item->paid_at)->format('d M Y H:i') : '-'),
+            \MoonShine\UI\Fields\Text::make('Admin', 'user.name'),
         ];
     }
 
@@ -43,7 +44,12 @@ class PaymentIndexPage extends IndexPage
      */
     protected function buttons(): ListOf
     {
-        return parent::buttons();
+        return parent::buttons()->add(
+            \MoonShine\UI\Components\ActionButton::make('Approve', fn($item) => route('admin.payments.approve', $item->id))
+                ->icon('check')
+                ->success()
+                ->canSee(fn($item) => $item->status === 'waiting')
+        );
     }
 
     /**

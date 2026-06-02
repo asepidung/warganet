@@ -19,6 +19,10 @@ Route::post('/admin/bills/{id}/payment', [\App\Http\Controllers\StorePaymentCont
     ->name('admin.bills.storePayment')
     ->middleware('moonshine');
 
+Route::get('/admin/payments/{id}/approve', [\App\Http\Controllers\ApprovePaymentController::class, '__invoke'])
+    ->name('admin.payments.approve')
+    ->middleware('moonshine');
+
 
 
 Route::middleware('auth')->group(function () {

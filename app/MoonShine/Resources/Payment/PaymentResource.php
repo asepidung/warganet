@@ -22,6 +22,8 @@ class PaymentResource extends ModelResource
 
     protected string $title = 'Payments';
     
+    protected string $icon = 'currency-dollar';
+    
     /**
      * @return list<class-string<PageContract>>
      */
@@ -32,5 +34,22 @@ class PaymentResource extends ModelResource
             PaymentFormPage::class,
             PaymentDetailPage::class,
         ];
+    }
+
+    public function getActiveActions(): array
+    {
+        return [];
+    }
+
+    public function modifyQueryBuilder(\Illuminate\Contracts\Database\Eloquent\Builder $builder): \Illuminate\Contracts\Database\Eloquent\Builder
+    {
+        return $builder
+            ->whereIn('id', function ($query) {
+                $query->selectRaw('MAX(id)')
+                      ->from('payments')
+                      ->groupBy('customer_id');
+            })
+            ->whereHas('customer', fn($q) => $q->where('is_active', true))
+            ->orderBy('created_at', 'desc');
     }
 }
