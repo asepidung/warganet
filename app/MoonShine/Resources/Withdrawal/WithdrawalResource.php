@@ -42,4 +42,20 @@ class WithdrawalResource extends ModelResource
     {
         return $builder->orderBy('withdrawal_date', 'desc');
     }
+
+    protected function isCan(\MoonShine\Support\Enums\Ability $ability): bool
+    {
+        $roleId = auth('moonshine')->user()?->moonshine_user_role_id;
+        
+        // Full Admin
+        if ($roleId === 1) {
+            return true;
+        }
+
+        // Admin Terbatas (Prima) & Lainnya
+        return in_array($ability, [
+            \MoonShine\Support\Enums\Ability::VIEW_ANY,
+            \MoonShine\Support\Enums\Ability::VIEW,
+        ]);
+    }
 }

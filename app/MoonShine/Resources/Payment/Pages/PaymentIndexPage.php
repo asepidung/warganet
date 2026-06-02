@@ -48,7 +48,7 @@ class PaymentIndexPage extends IndexPage
             \MoonShine\UI\Components\ActionButton::make('Approve', fn($item) => route('admin.payments.approve', $item->id))
                 ->icon('check')
                 ->success()
-                ->canSee(fn($item) => $item->status === 'waiting')
+                ->canSee(fn($item) => $item->status === 'waiting' && auth('moonshine')->user()?->moonshine_user_role_id === 1)
         );
     }
 

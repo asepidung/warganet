@@ -33,8 +33,14 @@ final class MoonShineLayout extends AppLayout
 
     protected function menu(): array
     {
+        $menus = [];
+        // Hanya Full Admin (Role ID 1) yang bisa melihat menu System
+        if (auth('moonshine')->user()?->moonshine_user_role_id === 1) {
+            $menus = parent::menu();
+        }
+
         return [
-            ...parent::menu(),
+            ...$menus,
             MenuItem::make(CustomerResource::class, 'Customers')->icon('users'),
             MenuItem::make(BillResource::class, 'Bills')->icon('document-text'),
             MenuItem::make(PaymentResource::class, 'Payments')->icon('currency-dollar'),
