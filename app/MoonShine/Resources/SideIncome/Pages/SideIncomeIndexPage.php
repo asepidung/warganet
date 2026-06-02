@@ -29,8 +29,8 @@ class SideIncomeIndexPage extends IndexPage
     protected function fields(): iterable
     {
         return [
-            \MoonShine\UI\Fields\Text::make('Date', 'date'),
-            \MoonShine\UI\Fields\Text::make('Amount', 'amount', fn($item) => number_format((float)$item->amount, 2, '.', ',')),
+            \MoonShine\UI\Fields\Text::make('Date', 'date', fn($item) => \Carbon\Carbon::parse($item->date)->format('d M Y')),
+            \MoonShine\UI\Fields\Text::make('Amount', 'amount', fn($item) => number_format((float)$item->amount, 0, '', ',')),
             \MoonShine\UI\Fields\Text::make('Description', 'description'),
         ];
     }

@@ -28,10 +28,18 @@ class SideIncomeFormPage extends FormPage
     protected function fields(): iterable
     {
         return [
-            \MoonShine\UI\Fields\ID::make(),
-            \MoonShine\UI\Fields\Text::make('Date', 'date'),
-            \MoonShine\UI\Fields\Number::make('Amount', 'amount'),
-            \MoonShine\UI\Fields\Text::make('Description', 'description'),
+            \MoonShine\UI\Fields\Date::make('Date', 'date')->required(),
+            \MoonShine\UI\Fields\Text::make('Amount', 'amount')
+                ->required()
+                ->customAttributes([
+                    'onkeyup' => 'this.value = this.value.replace(/[^0-9]/g, "").replace(/\B(?=(\d{3})+(?!\d))/g, ",")'
+                ])
+                ->onApply(function(\Illuminate\Database\Eloquent\Model $item, $value, \MoonShine\Contracts\UI\FieldContract $field) {
+                    $cleanValue = str_replace(',', '', $value);
+                    $item->amount = $cleanValue;
+                    return $item;
+                }),
+            \MoonShine\UI\Fields\Textarea::make('Description', 'description'),
         ];
     }
 

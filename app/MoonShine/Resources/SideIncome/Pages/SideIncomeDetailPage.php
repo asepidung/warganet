@@ -25,9 +25,8 @@ class SideIncomeDetailPage extends DetailPage
     protected function fields(): iterable
     {
         return [
-            \MoonShine\UI\Fields\ID::make(),
-            \MoonShine\UI\Fields\Text::make('Date', 'date'),
-            \MoonShine\UI\Fields\Number::make('Amount', 'amount'),
+            \MoonShine\UI\Fields\Text::make('Date', 'date', fn($item) => \Carbon\Carbon::parse($item->date)->format('d M Y')),
+            \MoonShine\UI\Fields\Text::make('Amount', 'amount', fn($item) => number_format((float)$item->amount, 0, '', ',')),
             \MoonShine\UI\Fields\Text::make('Description', 'description'),
             \MoonShine\UI\Fields\Text::make('Created At', 'created_at'),
             \MoonShine\UI\Fields\Text::make('Updated At', 'updated_at'),

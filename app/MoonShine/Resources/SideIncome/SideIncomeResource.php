@@ -20,7 +20,11 @@ class SideIncomeResource extends ModelResource
 {
     protected string $model = SideIncome::class;
 
-    protected string $title = 'SideIncomes';
+    protected string $title = 'Side Incomes';
+    
+    protected string $icon = 'arrow-up-tray';
+
+    protected ?\MoonShine\Support\Enums\PageType $redirectAfterSave = \MoonShine\Support\Enums\PageType::INDEX;
     
     /**
      * @return list<class-string<PageContract>>
@@ -32,5 +36,10 @@ class SideIncomeResource extends ModelResource
             SideIncomeFormPage::class,
             SideIncomeDetailPage::class,
         ];
+    }
+
+    public function modifyQueryBuilder(\Illuminate\Contracts\Database\Eloquent\Builder $builder): \Illuminate\Contracts\Database\Eloquent\Builder
+    {
+        return $builder->orderBy('date', 'desc');
     }
 }
