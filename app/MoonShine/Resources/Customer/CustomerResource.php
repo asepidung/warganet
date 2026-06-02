@@ -12,6 +12,7 @@ use App\MoonShine\Resources\Customer\Pages\CustomerDetailPage;
 
 use MoonShine\Laravel\Resources\ModelResource;
 use MoonShine\Contracts\Core\PageContract;
+use MoonShine\Support\Enums\Action;
 
 /**
  * @extends ModelResource<Customer, CustomerIndexPage, CustomerFormPage, CustomerDetailPage>
@@ -32,5 +33,10 @@ class CustomerResource extends ModelResource
             CustomerFormPage::class,
             CustomerDetailPage::class,
         ];
+    }
+
+    public function getActiveActions(): array
+    {
+        return [Action::CREATE, Action::VIEW, Action::UPDATE];
     }
 }

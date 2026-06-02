@@ -17,7 +17,13 @@ class Customer extends Model
         'pass_pppoe',
         'remote_address',
         'monthly_fee',
+        'is_active',
     ];
+
+    protected $casts = [
+        'is_active' => 'boolean',
+    ];
+
     public function bills()
     {
         return $this->hasMany(Bill::class);

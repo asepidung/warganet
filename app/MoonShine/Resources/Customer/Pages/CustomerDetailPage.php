@@ -25,19 +25,31 @@ class CustomerDetailPage extends DetailPage
     protected function fields(): iterable
     {
         return [
-            \MoonShine\UI\Fields\ID::make(),
-            \MoonShine\UI\Fields\Text::make('Name', 'name'),
-            \MoonShine\UI\Fields\Text::make('Ssid', 'ssid'),
-            \MoonShine\UI\Fields\Text::make('Pass Wifi', 'pass_wifi'),
-            \MoonShine\UI\Fields\Text::make('Ip Router', 'ip_router'),
-            \MoonShine\UI\Fields\Text::make('User Router', 'user_router'),
-            \MoonShine\UI\Fields\Text::make('Pass Router', 'pass_router'),
-            \MoonShine\UI\Fields\Text::make('User Pppoe', 'user_pppoe'),
-            \MoonShine\UI\Fields\Text::make('Pass Pppoe', 'pass_pppoe'),
-            \MoonShine\UI\Fields\Text::make('Remote Address', 'remote_address'),
-            \MoonShine\UI\Fields\Number::make('Monthly Fee', 'monthly_fee'),
-            \MoonShine\UI\Fields\Text::make('Created At', 'created_at'),
-            \MoonShine\UI\Fields\Text::make('Updated At', 'updated_at'),
+            \MoonShine\UI\Fields\Fieldset::make('General Information', [
+                \MoonShine\UI\Fields\ID::make(),
+                \MoonShine\UI\Fields\Text::make('Name', 'name'),
+                \MoonShine\UI\Fields\Switcher::make('Status Aktif', 'is_active')->disabled(),
+                \MoonShine\UI\Fields\Text::make('Monthly Fee', 'monthly_fee', fn($item) => 'Rp ' . number_format((float)$item->monthly_fee, 0, ',', '.')),
+                \MoonShine\UI\Fields\Text::make('Created At', 'created_at'),
+                \MoonShine\UI\Fields\Text::make('Updated At', 'updated_at'),
+            ]),
+            
+            \MoonShine\UI\Fields\Fieldset::make('Router Information', [
+                \MoonShine\UI\Fields\Text::make('IP Router', 'ip_router'),
+                \MoonShine\UI\Fields\Text::make('User Router', 'user_router'),
+                \MoonShine\UI\Fields\Text::make('Pass Router', 'pass_router'),
+            ]),
+            
+            \MoonShine\UI\Fields\Fieldset::make('PPPoE & Remote', [
+                \MoonShine\UI\Fields\Text::make('User PPPoE', 'user_pppoe'),
+                \MoonShine\UI\Fields\Text::make('Pass PPPoE', 'pass_pppoe'),
+                \MoonShine\UI\Fields\Text::make('Remote Address', 'remote_address'),
+            ]),
+
+            \MoonShine\UI\Fields\Fieldset::make('WiFi Credentials', [
+                \MoonShine\UI\Fields\Text::make('SSID WiFi', 'ssid'),
+                \MoonShine\UI\Fields\Text::make('Pass WiFi', 'pass_wifi'),
+            ]),
         ];
     }
 

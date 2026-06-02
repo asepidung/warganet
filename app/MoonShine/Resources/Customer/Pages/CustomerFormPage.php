@@ -28,17 +28,29 @@ class CustomerFormPage extends FormPage
     protected function fields(): iterable
     {
         return [
-            \MoonShine\UI\Fields\ID::make(),
-            \MoonShine\UI\Fields\Text::make('Name', 'name'),
-            \MoonShine\UI\Fields\Text::make('Ssid', 'ssid'),
-            \MoonShine\UI\Fields\Text::make('Pass Wifi', 'pass_wifi'),
-            \MoonShine\UI\Fields\Text::make('Ip Router', 'ip_router'),
-            \MoonShine\UI\Fields\Text::make('User Router', 'user_router'),
-            \MoonShine\UI\Fields\Text::make('Pass Router', 'pass_router'),
-            \MoonShine\UI\Fields\Text::make('User Pppoe', 'user_pppoe'),
-            \MoonShine\UI\Fields\Text::make('Pass Pppoe', 'pass_pppoe'),
-            \MoonShine\UI\Fields\Text::make('Remote Address', 'remote_address'),
-            \MoonShine\UI\Fields\Number::make('Monthly Fee', 'monthly_fee'),
+            \MoonShine\UI\Fields\Fieldset::make('General Information', [
+                \MoonShine\UI\Fields\ID::make(),
+                \MoonShine\UI\Fields\Text::make('Name', 'name')->required(),
+                \MoonShine\UI\Fields\Switcher::make('Status Aktif', 'is_active'),
+                \MoonShine\UI\Fields\Number::make('Monthly Fee', 'monthly_fee')->required(),
+            ]),
+            
+            \MoonShine\UI\Fields\Fieldset::make('Router Information', [
+                \MoonShine\UI\Fields\Text::make('IP Router', 'ip_router'),
+                \MoonShine\UI\Fields\Text::make('User Router', 'user_router'),
+                \MoonShine\UI\Fields\Text::make('Pass Router', 'pass_router'),
+            ]),
+            
+            \MoonShine\UI\Fields\Fieldset::make('PPPoE & Remote', [
+                \MoonShine\UI\Fields\Text::make('User PPPoE', 'user_pppoe'),
+                \MoonShine\UI\Fields\Text::make('Pass PPPoE', 'pass_pppoe'),
+                \MoonShine\UI\Fields\Text::make('Remote Address', 'remote_address'),
+            ]),
+
+            \MoonShine\UI\Fields\Fieldset::make('WiFi Credentials', [
+                \MoonShine\UI\Fields\Text::make('SSID WiFi', 'ssid'),
+                \MoonShine\UI\Fields\Text::make('Pass WiFi', 'pass_wifi'),
+            ]),
         ];
     }
 

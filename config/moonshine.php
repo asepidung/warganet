@@ -29,10 +29,10 @@ return [
     'logo_small' => '/adminlte/dist/img/warganetlogo.png',
 
     'favicons' => [
-        'apple-touch' => '/vendor/moonshine/apple-touch-icon.png',
-        '32' => '/vendor/moonshine/favicon-32x32.png',
-        '16' => '/vendor/moonshine/favicon-16x16.png',
-        'safari-pinned-tab' => '/vendor/moonshine/safari-pinned-tab.svg',
+        'apple-touch' => '/adminlte/dist/img/warganetlogo.png',
+        '32' => '/adminlte/dist/img/warganetlogo.png',
+        '16' => '/adminlte/dist/img/warganetlogo.png',
+        'safari-pinned-tab' => '/adminlte/dist/img/warganetlogo.png',
     ],
 
     // Default flags

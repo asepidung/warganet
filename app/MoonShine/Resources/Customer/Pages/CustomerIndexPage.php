@@ -30,15 +30,11 @@ class CustomerIndexPage extends IndexPage
     {
         return [
             \MoonShine\UI\Fields\Text::make('Name', 'name'),
-            \MoonShine\UI\Fields\Text::make('Ssid', 'ssid'),
-            \MoonShine\UI\Fields\Text::make('Pass Wifi', 'pass_wifi'),
-            \MoonShine\UI\Fields\Text::make('Ip Router', 'ip_router'),
-            \MoonShine\UI\Fields\Text::make('User Router', 'user_router'),
-            \MoonShine\UI\Fields\Text::make('Pass Router', 'pass_router'),
-            \MoonShine\UI\Fields\Text::make('User Pppoe', 'user_pppoe'),
-            \MoonShine\UI\Fields\Text::make('Pass Pppoe', 'pass_pppoe'),
-            \MoonShine\UI\Fields\Text::make('Remote Address', 'remote_address'),
-            \MoonShine\UI\Fields\Text::make('Monthly Fee', 'monthly_fee', fn($item) => number_format((float)$item->monthly_fee, 2, '.', ',')),
+            \MoonShine\UI\Fields\Text::make('IP Router', 'ip_router'),
+            \MoonShine\UI\Fields\Text::make('SSID WiFi', 'ssid'),
+            \MoonShine\UI\Fields\Text::make('Password WiFi', 'pass_wifi'),
+            \MoonShine\UI\Fields\Text::make('Monthly Fee', 'monthly_fee', fn($item) => 'Rp ' . number_format((float)$item->monthly_fee, 0, ',', '.')),
+            \MoonShine\UI\Fields\Switcher::make('Status Aktif', 'is_active')->updateOnPreview(),
         ];
     }
 
