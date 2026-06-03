@@ -2,16 +2,14 @@
 @media (max-width: 768px) {
     /* Scale down dashboard metric text so it fits 2 columns neatly */
     .metric-value {
-        font-size: 1.1rem !important;
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
+        font-size: 0.95rem !important;
+        white-space: normal;
+        word-break: break-word;
     }
     .metric-title {
-        font-size: 0.8rem !important;
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
+        font-size: 0.75rem !important;
+        white-space: normal;
+        word-break: break-word;
     }
 
     /* Reduce table padding to allow more columns to fit horizontally without scrolling */
