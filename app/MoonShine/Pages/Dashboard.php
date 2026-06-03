@@ -53,25 +53,25 @@ class Dashboard extends Page
                     \MoonShine\UI\Components\Metrics\Wrapped\ValueMetric::make('KAS (Sisa Uang Fisik)')
                         ->value('Rp ' . number_format((float) $kas, 0, '', ','))
                         ->icon('banknotes')
-                ])->columnSpan(3),
+                ])->columnSpan(3, 6),
                 
                 \MoonShine\UI\Components\Layout\Column::make([
                     \MoonShine\UI\Components\Metrics\Wrapped\ValueMetric::make('Total Payments')
                         ->value('Rp ' . number_format((float) $totalPayments, 0, '', ','))
                         ->icon('currency-dollar')
-                ])->columnSpan(3),
+                ])->columnSpan(3, 6),
                 
                 \MoonShine\UI\Components\Layout\Column::make([
                     \MoonShine\UI\Components\Metrics\Wrapped\ValueMetric::make('Total Expenses')
                         ->value('Rp ' . number_format((float) $totalExpenses, 0, '', ','))
                         ->icon('shopping-cart')
-                ])->columnSpan(3),
+                ])->columnSpan(3, 6),
                 
                 \MoonShine\UI\Components\Layout\Column::make([
                     \MoonShine\UI\Components\Metrics\Wrapped\ValueMetric::make('Total Withdrawals')
                         ->value('Rp ' . number_format((float) $totalWithdrawals, 0, '', ','))
                         ->icon('arrow-down-tray')
-                ])->columnSpan(3),
+                ])->columnSpan(3, 6),
             ]),
             
             \MoonShine\UI\Components\Layout\Grid::make([
@@ -79,25 +79,25 @@ class Dashboard extends Page
                     \MoonShine\UI\Components\Metrics\Wrapped\ValueMetric::make('Saldo Hak Idung')
                         ->value('Rp ' . number_format((float) $saldoIdung, 0, '', ','))
                         ->icon('user')
-                ])->columnSpan(3),
+                ])->columnSpan(3, 6),
                 
                 \MoonShine\UI\Components\Layout\Column::make([
                     \MoonShine\UI\Components\Metrics\Wrapped\ValueMetric::make('Saldo Hak Prima')
                         ->value('Rp ' . number_format((float) $saldoPrima, 0, '', ','))
                         ->icon('user')
-                ])->columnSpan(3),
+                ])->columnSpan(3, 6),
                 
                 \MoonShine\UI\Components\Layout\Column::make([
                     \MoonShine\UI\Components\Metrics\Wrapped\ValueMetric::make('Total Side Incomes')
                         ->value('Rp ' . number_format((float) $totalSideIncomes, 0, '', ','))
                         ->icon('plus-circle')
-                ])->columnSpan(3),
+                ])->columnSpan(3, 6),
                 
                 \MoonShine\UI\Components\Layout\Column::make([
                     \MoonShine\UI\Components\Metrics\Wrapped\ValueMetric::make('Total Payment Waiting')
                         ->value('Rp ' . number_format((float) $paymentWaiting, 0, '', ','))
                         ->icon('clock')
-                ])->columnSpan(3),
+                ])->columnSpan(3, 6),
             ]),
         ];
     }

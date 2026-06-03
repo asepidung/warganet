@@ -29,6 +29,7 @@ final class MoonShineLayout extends AppLayout
     {
         return [
             ...parent::assets(),
+            \MoonShine\AssetManager\Css::make(asset('css/mobile.css')),
         ];
     }
 

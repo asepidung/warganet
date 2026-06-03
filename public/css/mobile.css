@@ -1,0 +1,39 @@
+/* Mobile specific optimizations for MoonShine Admin Panel */
+@media (max-width: 768px) {
+    /* Scale down dashboard metric text so it fits 2 columns neatly */
+    .metric-value {
+        font-size: 1.1rem !important;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+    .metric-title {
+        font-size: 0.8rem !important;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    /* Reduce table padding to allow more columns to fit horizontally without scrolling */
+    table td, table th {
+        padding: 0.5rem 0.25rem !important;
+        font-size: 0.85rem !important;
+    }
+
+    /* Increase the size of the sidebar/mobile menu links for better touch targets */
+    .menu-inner-item {
+        font-size: 1.1rem !important;
+        padding-top: 1rem !important;
+        padding-bottom: 1rem !important;
+    }
+    .menu-inner-item svg {
+        width: 1.5rem !important;
+        height: 1.5rem !important;
+    }
+
+    /* Adjust padding of main layout container on mobile */
+    .layout-page {
+        padding-left: 0.5rem !important;
+        padding-right: 0.5rem !important;
+    }
+}
