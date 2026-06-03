@@ -43,7 +43,7 @@ class WithdrawalFormPage extends FormPage
 
         return [
             \MoonShine\UI\Components\Badge::make($balancesString, 'success'),
-            \MoonShine\UI\Fields\Select::make('User', 'user_id')
+            \MoonShine\UI\Fields\Select::make('Drawer (Pengambil)', 'user_id')
                 ->options($usersList)
                 ->searchable()
                 ->required(),

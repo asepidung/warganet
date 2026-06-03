@@ -98,6 +98,7 @@ class BillIndexPage extends IndexPage
             \MoonShine\UI\Components\Metrics\Wrapped\ValueMetric::make('Total Tagihan Belum Dibayar')
                 ->value('Rp ' . number_format((float)$totalUnpaid, 0, '', ','))
                 ->icon('currency-dollar')
+                ->columnSpan(4, 6)
         ];
     }
 

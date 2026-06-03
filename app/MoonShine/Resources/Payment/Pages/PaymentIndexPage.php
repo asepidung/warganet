@@ -35,7 +35,6 @@ class PaymentIndexPage extends IndexPage
             \MoonShine\UI\Fields\Text::make('Status', 'status')
                 ->badge(fn($status) => $status === 'waiting' ? 'info' : 'success'),
             \MoonShine\UI\Fields\Text::make('Paid At', 'paid_at', fn($item) => $item->paid_at ? \Carbon\Carbon::parse($item->paid_at)->format('d M Y H:i') : '-'),
-            \MoonShine\UI\Fields\Text::make('Admin', 'user.name'),
         ];
     }
 

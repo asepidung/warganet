@@ -30,10 +30,8 @@ class CustomerIndexPage extends IndexPage
     {
         return [
             \MoonShine\UI\Fields\Text::make('Name', 'name'),
-            \MoonShine\UI\Fields\Text::make('IP Router', 'ip_router'),
             \MoonShine\UI\Fields\Text::make('SSID WiFi', 'ssid'),
             \MoonShine\UI\Fields\Text::make('Password WiFi', 'pass_wifi'),
-            \MoonShine\UI\Fields\Text::make('Monthly Fee', 'monthly_fee', fn($item) => 'Rp ' . number_format((float)$item->monthly_fee, 0, ',', '.')),
             \MoonShine\UI\Fields\Switcher::make('Status Aktif', 'is_active')->updateOnPreview(),
         ];
     }
