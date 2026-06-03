@@ -37,8 +37,6 @@ class ExpenseFormPage extends FormPage
                     'onkeyup' => "this.value = this.value.replace(/[^0-9]/g, '').replace(/\B(?=(\d{3})+(?!\d))/g, ',')"
                 ])
                 ->onApply(fn($item, $value) => $item->amount = str_replace(',', '', $value)),
-            \MoonShine\UI\Fields\Hidden::make('User ID', 'user_id')
-                ->default(auth('moonshine')->id()),
         ];
     }
 

@@ -20,4 +20,13 @@ class Expense extends Model
     {
         return $this->belongsTo(User::class);
     }
+
+    protected static function booted()
+    {
+        static::creating(function ($expense) {
+            if (!$expense->user_id) {
+                $expense->user_id = auth('moonshine')->id() ?? auth()->id();
+            }
+        });
+    }
 }
