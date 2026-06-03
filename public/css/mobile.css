@@ -1,15 +1,19 @@
 /* Mobile specific optimizations for MoonShine Admin Panel */
 @media (max-width: 768px) {
     /* Scale down dashboard metric text so it fits 2 columns neatly */
-    .metric-value {
-        font-size: 0.95rem !important;
-        white-space: normal;
-        word-break: break-word;
+    .report-card-value {
+        font-size: 1rem !important;
+        white-space: normal !important;
+        overflow: visible !important;
+        text-overflow: clip !important;
+        word-break: break-word !important;
     }
-    .metric-title {
-        font-size: 0.75rem !important;
-        white-space: normal;
-        word-break: break-word;
+    .report-card-title {
+        font-size: 0.8rem !important;
+        white-space: normal !important;
+        overflow: visible !important;
+        text-overflow: clip !important;
+        word-break: break-word !important;
     }
 
     /* Reduce table padding to allow more columns to fit horizontally without scrolling */
