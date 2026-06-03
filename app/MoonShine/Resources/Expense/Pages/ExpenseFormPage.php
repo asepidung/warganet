@@ -38,7 +38,7 @@ class ExpenseFormPage extends FormPage
                 ])
                 ->onApply(fn($item, $value) => $item->amount = str_replace(',', '', $value)),
             \MoonShine\UI\Fields\Hidden::make('User ID', 'user_id')
-                ->default(auth()->id()),
+                ->default(auth('moonshine')->id()),
         ];
     }
 
